@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef enum {
     FEU,
@@ -29,30 +30,47 @@ Pokemon creerPokemon(const char *nom, int pvMax, int attaque, Type type)
     return pokemon;
 }
 
-int calculerDegats(Pokemon *attaquant, Pokemon cible) {
-    int degats = attaquant->attaque;
+int calculerDegats(Pokemon attaquant, Pokemon cible) {
+    int degats = attaquant.attaque;
 
     if (
-        (attaquant->type == FEU && cible.type == PLANTE) ||
-        (attaquant->type == EAU && cible.type == FEU) ||
-        (attaquant->type == PLANTE && cible.type == EAU)
+        (attaquant.type == FEU && cible.type == PLANTE) ||
+        (attaquant.type == EAU && cible.type == FEU) ||
+        (attaquant.type == PLANTE && cible.type == EAU)
     ) {
         degats *= 2;
     }
     else if (
-        (attaquant->type == FEU && cible.type == EAU) ||
-        (attaquant->type == EAU && cible.type == PLANTE) ||
-        (attaquant->type == PLANTE && cible.type == FEU)
+        (attaquant.type == FEU && cible.type == EAU) ||
+        (attaquant.type == EAU && cible.type == PLANTE) ||
+        (attaquant.type == PLANTE && cible.type == FEU)
     ) {
         degats /= 2;
     }
     return degats;
 }
+
+bool attaquer(Pokemon *attaquant, Pokemon *cible) {
+    if (attaquant -> pv <= 0 || cible -> pv <= 0) {
+        return false;
+    }
+    int degats = calculerDegats(*attaquant, *cible);
+    cible->pv -= degats;
+    if (cible->pv < 0) {
+        cible->pv = 0;
+    }
+    return true;
+}
+
 int main(void)
 {
     Pokemon carapuce = creerPokemon("Carapuce", 50, 10, EAU);
+    Pokemon salameche = creerPokemon("Salameche", 60, 15, FEU);
 
-    printf("%s : %d/%d PV\n",carapuce.nom, carapuce.pv, carapuce.pvMax);
+    if (attaquer(&carapuce, &salameche))
+    {
+        printf("%s : %d/%d PV\n",salameche.nom, salameche.pv, salameche.pvMax);
+    }
 
     return 0;
 }
