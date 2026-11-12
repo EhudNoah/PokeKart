@@ -29,6 +29,25 @@ Pokemon creerPokemon(const char *nom, int pvMax, int attaque, Type type)
     return pokemon;
 }
 
+int calculerDegats(Pokemon *attaquant, Pokemon cible) {
+    int degats = attaquant->attaque;
+
+    if (
+        (attaquant->type == FEU && cible.type == PLANTE) ||
+        (attaquant->type == EAU && cible.type == FEU) ||
+        (attaquant->type == PLANTE && cible.type == EAU)
+    ) {
+        degats *= 2;
+    }
+    else if (
+        (attaquant->type == FEU && cible.type == EAU) ||
+        (attaquant->type == EAU && cible.type == PLANTE) ||
+        (attaquant->type == PLANTE && cible.type == FEU)
+    ) {
+        degats /= 2;
+    }
+    return degats;
+}
 int main(void)
 {
     Pokemon carapuce = creerPokemon("Carapuce", 50, 10, EAU);
