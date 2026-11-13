@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+//Les types des cartes
 typedef enum {
     FEU,
     EAU,
@@ -17,6 +18,8 @@ typedef struct {
     Type type;
 } Pokemon;
 
+
+//Fonction pour créer un Pokémon
 Pokemon creerPokemon(const char *nom, int pvMax, int attaque, Type type)
 {
     Pokemon pokemon = {0};
@@ -30,6 +33,8 @@ Pokemon creerPokemon(const char *nom, int pvMax, int attaque, Type type)
     return pokemon;
 }
 
+
+//Fonction pour calculer les dégâts d'une attaque
 int calculerDegats(Pokemon attaquant, Pokemon cible) {
     int degats = attaquant.attaque;
 
@@ -82,6 +87,7 @@ char *combat(Pokemon *pokemon1, Pokemon *pokemon2) {
         return pokemon1->nom;
     }
 }
+
 int main(void)
 {
     Pokemon carapuce = creerPokemon("Carapuce", 50, 10, EAU);
